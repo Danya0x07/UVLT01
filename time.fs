@@ -6,7 +6,6 @@ RAM
 
 #require :NVM
 #require ]B!
-#require WIPE
 
 \res MCU: STM8S103
 \res export TIM4_CR1 TIM4_IER TIM4_PSCR TIM4_ARR TIM4_SR

@@ -8,7 +8,6 @@ RAM
 #require :NVM
 #require ]B!
 #require ]B?
-#require WIPE
 
 #require time.fs
 
