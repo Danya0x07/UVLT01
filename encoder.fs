@@ -52,12 +52,12 @@ variable _?btn.prev
 \
 \ So the formula can be: -(CLK xor DT), if 0 then -1 .
 
-: _enc.calc-step  ( CLK DT -- step)
+: _calc-step  ( CLK DT -- step)
     \ Calculate encoder step (+1 | -1) from its pins statuses
     xor negate
     dup 0= if drop -1 then ;
 
-: _enc.constrain  ( updated -- constrained)
+: _constrain  ( updated -- constrained)
     \ Constrain encoder current value according to bounds.
     dup _enc.max @ > if drop _enc.max @ then
     dup _enc.min @ < if drop _enc.min @ then ;
@@ -68,9 +68,9 @@ variable _?btn.prev
 
     [ PC_IDR ENCODER_CLK ]B?  \ get CLK
     [ PC_IDR ENCODER_DT ]B?   \ get DT
-    _enc.calc-step  _enc.curr @  +  \ this will be new encoder value
+    _calc-step  _enc.curr @  +  \ this will be new encoder value
     \ Check it and then write.
-    _enc.constrain  _enc.curr !
+    _constrain  _enc.curr !
 
     1 encoder-irq!
     IRET
