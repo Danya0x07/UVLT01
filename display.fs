@@ -79,14 +79,11 @@ variable _dp.numbuff 2 allot
     _dio-high ;
 
 : _check-ack  ( -- )
-    _clk-low
+    _clk-low _dio-high
     _bit-delay
-    _dio-high
     _dio-high? not if
         _dio-low then
-    _bit-delay
-    _clk-high _bit-delay 
-    _clk-low ;
+    _clk-high _bit-delay _clk-low ;
 
 \ Display memory managment.
 : _write-byte  ( b -- )

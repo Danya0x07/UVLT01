@@ -1,15 +1,13 @@
 \ Encoder and button lexicon.
 
-NVM
+nvm
 #require >
 #require <>
-RAM
+ram
 
 #require :NVM
 #require ]B!
 #require ]B?
-
-#require time.fs
 
 \res MCU: STM8S103
 \res export PC_IDR PC_CR1 PC_CR2
@@ -17,11 +15,11 @@ RAM
 \res export INT_EXTI2
 
 \ Pin definitions.
-7 constant ENCODER_BTN
-6 constant ENCODER_CLK
-5 constant ENCODER_DT
+7 constant _enc.BTN
+6 constant _enc.CLK
+5 constant _enc.DT
 
-NVM
+nvm
 variable _enc.min
 variable _enc.max
 variable _enc.curr
@@ -29,14 +27,14 @@ variable _?btn.prev
 
 : encoder-init  ( -- )
     \ Ininialize GPIOs of encoder and its button.
-    [ 1 PC_CR1 ENCODER_BTN ]B!  \ internal pullup on
-    [ $9B C, ]    \ ASM("SIM") - disable interrupts
-    $30 EXTI_CR1 C!  \ PortC interrupt on
-    [ $9A C, ] ;  \ ASM("RIM") - enable interrupts
+    [ 1 PC_CR1 _enc.BTN ]b!  \ internal pullup on
+    [ $9B c, ]    \ ASM("SIM") - disable interrupts
+    $30 EXTI_CR1 c!  \ PortC interrupt on
+    [ $9A c, ] ;  \ ASM("RIM") - enable interrupts
 
 : encoder-irq!  ( 1|0 -- )
     \ Manage encoder interrupt
-    PC_CR2 ENCODER_CLK B! ;
+    PC_CR2 _enc.CLK b! ;
 
 \ Relationship between encoder pin statuses and its steps
 \ looks like that: (high: -1, low: 0)
@@ -62,19 +60,19 @@ variable _?btn.prev
     dup _enc.max @ > if drop _enc.max @ then
     dup _enc.min @ < if drop _enc.min @ then ;
 
-:NVM  \ Encoder ISR.
-    SAVEC
+:nvm  \ Encoder ISR.
+    savec
     0 encoder-irq!
 
-    [ PC_IDR ENCODER_CLK ]B?  \ get CLK
-    [ PC_IDR ENCODER_DT ]B?   \ get DT
+    [ PC_IDR _enc.CLK ]b?  \ get CLK
+    [ PC_IDR _enc.DT ]b?   \ get DT
     _calc-step  _enc.curr @  +  \ this will be new encoder value
     \ Check it and then write.
     _constrain  _enc.curr !
 
     1 encoder-irq!
-    IRET
-;NVM INT_EXTI2 !
+    iret
+;nvm INT_EXTI2 !
 
 : encoder-set  ( min max curr -- )
     \ Set encoder bounds and current value.
@@ -86,7 +84,7 @@ variable _?btn.prev
 
 : button-is-down?  ( -- ? )
     \ Check if button is being pressed now.
-    [ PC_IDR ENCODER_BTN ]B? not ;
+    [ PC_IDR _enc.BTN ]b? not ;
 
 : button-pressed?  ( -- ? )
     \ Check if there was button pressed after it was released.
@@ -98,4 +96,4 @@ variable _?btn.prev
     dup rot not and  ( new ? )
     swap _?btn.prev ! ;
 
-RAM
+ram
