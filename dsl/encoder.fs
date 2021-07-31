@@ -96,4 +96,13 @@ variable _?btn.prev
     dup rot not and  ( new ? )
     swap _?btn.prev ! ;
 
+: pressed-again?  ( -- ? )
+    \ Check for another press. Should be called only after <button-press?>.
+    0
+    250 0 do
+        1 ms-wait
+        button-pressed? if
+            drop -1 leave then
+    loop ;
+
 ram
