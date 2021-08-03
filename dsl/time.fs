@@ -1,9 +1,5 @@
 \ Time managment words. Using TIM4 to count milliseconds.
 
-nvm
-#require >
-ram
-
 #require :NVM
 #require ]B!
 
@@ -59,4 +55,4 @@ variable ms.backup
     \ Convert milliseconds value to seconds
     1000 / ;
 
-ram
+ram wipe

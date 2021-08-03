@@ -1,10 +1,5 @@
 \ Encoder and button lexicon.
 
-nvm
-#require >
-#require <>
-ram
-
 #require :NVM
 #require ]B!
 #require ]B?
@@ -105,4 +100,4 @@ variable _?btn.prev
             drop -1 leave then
     loop ;
 
-ram
+ram wipe

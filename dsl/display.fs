@@ -154,4 +154,4 @@ variable _dp.numbuff 2 allot
     display-clear
     7 display-brightness! ;
 
-ram
+ram wipe

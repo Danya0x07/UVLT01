@@ -28,4 +28,4 @@ nvm
         dup 2/ ms-wait
     next drop ;
 
-ram
+ram wipe

@@ -25,4 +25,4 @@ nvm
     [ 1 _rel.PIN lshift ] literal PD_ODR c@ xor
     PD_ODR c! ;
 
-ram
+ram wipe

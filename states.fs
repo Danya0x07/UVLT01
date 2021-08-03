@@ -107,9 +107,7 @@ variable digit-buffer 2 allot
             else
                 dup execute
             then
-        else
-            drop
-        then
+        else drop then
         10 ms-wait
     repeat drop
     0 encoder-irq!

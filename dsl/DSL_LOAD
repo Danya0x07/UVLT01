@@ -1,0 +1,13 @@
+nvm
+#require WIPE
+#require >
+#require <>
+#require [']
+ram
+
+#require dsl/time.fs
+#require dsl/led.fs
+#require dsl/encoder.fs
+#require dsl/buzzer.fs
+#require dsl/relay.fs
+#require dsl/display.fs
