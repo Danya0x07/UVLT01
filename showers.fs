@@ -17,8 +17,8 @@ nvm
     \ in CONFITM state.
     duration @ to-printable WITH-DOTS display-number ;
 
-: show-time-backup  ( -- )
+: show-time-left  ( -- )
     \ Callback for showing seconds left in PAUSE state.
-    ms.backup @ ms>seconds to-printable NO-DOTS display-number ;
+    millis@ ms>seconds to-printable NO-DOTS display-number ;
 
 ram

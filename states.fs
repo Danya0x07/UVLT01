@@ -10,7 +10,6 @@ nvm
 5 constant state.FINISH
 
 : setup  ( -- nxstate )
-    \ SETUP state processor word.
     \ Refresh the system, get user input and go further.
     led-blink
     duration @ to-printable
@@ -23,7 +22,6 @@ nvm
     then ;
 
 : direct-control  ( -- nxstate )
-    \ DIRECT state processor word.
     \ Enter direct control mode, stay here until get doublepress.
     label.DASHES display-string
     begin
@@ -43,9 +41,7 @@ nvm
     2 100 buzz ;
 
 : confirm  ( -- nxstate )
-    \ CONFIRM state processor word.
-    \ This state allows user to start countdown procedure
-    \ or return to SETUP.
+    \ This state allows user to start countdown procedure or return to SETUP.
     led-on
     ['] show-duration take-option
     led-off

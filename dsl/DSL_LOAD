@@ -1,5 +1,6 @@
 nvm
 #require WIPE
+#require LSHIFT
 #require >
 #require <>
 #require [']

@@ -1,55 +1,51 @@
-\ Time managment words. Using TIM4 to count milliseconds.
+\ Time managment words.
 
-#require :NVM
 #require ]B!
+#require ]B?
+#require ]C!
 
 \res MCU: STM8S103
-\res export TIM4_CR1 TIM4_IER TIM4_PSCR TIM4_ARR TIM4_SR
-\res export INT_TIM4
+\res export TIM4_CR1 TIM4_PSCR TIM4_ARR TIM4_SR TIM4_CNTR
+\res export TIM1_PSCRH TIM1_PSCRL TIM1_CNTRH TIM1_CNTRL TIM1_CR1
 
 nvm
-variable millis
-variable ms.backup
-
-:nvm
-    savec
-    1 millis +!
-    [ 0 TIM4_SR 0 ]b!   \ clear interrupt pending bit
-    iret
-;nvm INT_TIM4 !
 
 : time-init  ( -- )
-    7 TIM4_PSCR c!   \ presc. 128
-    124 TIM4_ARR c!  \ period 125
-    [ 0 TIM4_SR 0 ]b!   \ clear flag
-    [ 1 TIM4_IER 0 ]b!  \ and enable interrupt
-    ;
+    \ Using TIM4 for milliseconds delay
+    [ 7 TIM4_PSCR ]c!   \ presc. 128
+    [ 124 TIM4_ARR ]c!  \ period 125
+
+    \ and TIM1 for counting milliseconds.
+    [ 15999 $100 / TIM1_PSCRH ]c!  \ Prescaler 16000
+    [ 15999 $FF and TIM1_PSCRL ]c! ;
 
 : time-start  ( -- )
     \ Start counting milliseconds.
-    [ 1 TIM4_CR1 0 ]b! ;
+    [ 1 TIM1_CR1 0 ]b! ;
 
 : time-stop  ( -- )
     \ Stop counting milliseconds.
-    [ 0 TIM4_CR1 0 ]b! ;
+    [ 0 TIM1_CR1 0 ]b! ;
 
-: time-store  ( -- )
-    \ Backup milliseconds counter.
-    millis @ ms.backup ! ;
+: time-reset
+    \ Reset milliseconds counter.
+    [ 0 TIM1_CNTRH ]c!
+    [ 0 TIM1_CNTRL ]c! ;
 
-: time-restore  ( -- )
-    \ Restore milliseconds counter from backup.
-    ms.backup @ millis ! ;
-
-: ms-passed?  ( ms -- ? )
-    \ Indicates that at least <ms> have passed.
-    millis @ > not ;
+: millis@
+    \ Get value of milliseconds counter.
+    TIM1_CNTRH c@ 8 lshift TIM1_CNTRL c@ or ;
 
 : ms-wait  ( ms -- )
-    0 millis !
-    time-start
-    begin dup ms-passed? until
-    drop time-stop ;
+    \ Delay for <ms> milliseconds.
+    [ 0 TIM4_CNTR ]c!
+    [ 1 TIM4_CR1 0 ]b!
+    1- for
+        \ wait for 1 ms.
+        begin [ TIM4_SR 0 ]b? until
+        [ 0 TIM4_SR 0 ]b!
+    next
+    [ 0 TIM1_CR1 0 ]b! ;
 
 : ms>seconds  ( ms -- seconds )
     \ Convert milliseconds value to seconds

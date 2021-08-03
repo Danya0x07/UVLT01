@@ -14,6 +14,6 @@ variable duration  \ Lighting duration in seconds
 
 : millis-left  ( -- ms-left )
     \ Get time left in milliseconds.
-    duration @ 1000 *  millis @  - ;
+    duration @ 1000 *  millis@  - ;
 
 ram
