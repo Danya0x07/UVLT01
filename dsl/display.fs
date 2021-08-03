@@ -37,10 +37,13 @@ create _dp.digits  \ Array for converting numbers to TM1637 digits.
 
 \ Some other symbol codes.
 %00000000 constant dp.NONE
-%10000000 constant dp.:
 %01000000 constant dp.-
 %00111001 constant dp.[
 %00001111 constant dp.]
+%01011110 constant dp.d
+%01011100 constant dp.o
+%01010100 constant dp.n
+%01111001 constant dp.E
 ram
 
 \ Command sets
@@ -102,7 +105,7 @@ variable _dp.numbuff 2 allot
 
 \ Display control words.
 
-: _brightness!  ( n -- )
+: display-brightness!  ( n -- )
     \ 0 <= n <= 7
     _dp.DISPLAY or  
     [ 1 _dp.DSS lshift ] literal or
@@ -149,6 +152,6 @@ variable _dp.numbuff 2 allot
     
     _clk-high _dio-high
     display-clear
-    7 _brightness! ;
+    7 display-brightness! ;
 
 ram
