@@ -2,3 +2,4 @@ pretest
 lib
 mcu
 target
+termconf.json
