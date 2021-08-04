@@ -44,6 +44,8 @@ create _dp.digits  \ Array for converting numbers to TM1637 digits.
 %01011100 constant dp.o
 %01010100 constant dp.n
 %01111001 constant dp.E
+%01111100 constant dp.b
+%01110111 constant dp.A
 ram
 
 \ Command sets

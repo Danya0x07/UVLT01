@@ -8,6 +8,14 @@ nvm
 3 constant state.COUNTDOWN
 4 constant state.PAUSE
 5 constant state.FINISH
+6 constant NUM-OF-STATES
+
+variable 'current-state  \ xt of current state.
+
+: correct-state?  ( state -- flag )
+    \ Checks <state> for being correct state number.
+    NUM-OF-STATES u< ;
+
 
 : setup  ( -- nxstate )
     \ Refresh the system, get user input and go further.
@@ -63,7 +71,7 @@ nvm
             to-printable WITH-DOTS display-number
         else drop then
         ( sec-left ) elapsed?
-        button-is-down? or
+        button-pressed? or
     until
     relay-off
     time-stop
@@ -91,5 +99,26 @@ nvm
     begin button-pressed? until
     led-off
     state.SETUP ;
+
+\ States table.
+create states   ' setup ,
+                ' direct-control ,
+                ' confirm ,
+                ' countdown ,
+                ' pause ,
+                ' finish ,
+
+: bad  ( -- )
+    \ Incorect state-id error handler.
+    label.BAD display-string
+    abort ;
+
+: transit  ( state -- )
+    \ Move system to the state with <state> number.
+    dup correct-state? if
+        2* states + @  'current-state !
+    else
+        drop  ['] bad 'current-state !
+    then ;
 
 ram
