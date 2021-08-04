@@ -11,6 +11,7 @@ nvm
 
 : setup  ( -- nxstate )
     \ Refresh the system, get user input and go further.
+    time-reset
     led-blink
     duration @ to-printable
     take-number from-printable
@@ -43,13 +44,33 @@ nvm
 : confirm  ( -- nxstate )
     \ This state allows user to start countdown procedure or return to SETUP.
     led-on
-    ['] show-duration take-option
+    ['] show-configured take-option
     led-off
     0= if
         2 100 buzz
         state.SETUP
     else
         state.COUNTDOWN
+    then ;
+
+: countdown  ( -- nxstate )
+    \ Perform lighting with countdown.
+    0 previous!
+    time-start
+    relay-on
+    begin
+        seconds-left dup data-new?! if
+            to-printable WITH-DOTS display-number
+        else drop then
+        ( sec-left ) elapsed?
+        button-is-down? or
+    until
+    relay-off
+    time-stop
+    button-is-down? if
+        state.PAUSE
+    else
+        state.FINISH
     then ;
 
 ram

@@ -36,6 +36,7 @@ variable digit-buffer 2 allot
     over digit@  ( pos max dig )
     0 rot rot  ( pos 0 max dig )
     encoder-set
+    dup digit@ previous!
     1 encoder-irq!
     begin button-pressed? not while
         ( pos )
@@ -49,6 +50,7 @@ variable digit-buffer 2 allot
 
 : take-number  ( prev -- new )
     \ Take user number editing digits of <prev>.
+    dup WITH-DOTS display-number
     parse-digits
     9 5 9 9  \ limits for time value [99:59]
     3 for

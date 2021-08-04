@@ -1,7 +1,6 @@
 \ Relay lexicon.
 
 #require ]B!
-#require LSHIFT
 
 \res MCU: STM8S103
 \res export PD_DDR PD_CR1 PD_ODR

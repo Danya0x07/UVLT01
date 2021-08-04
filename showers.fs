@@ -12,13 +12,13 @@ nvm
     100 /mod  60 *  + ;
 
 \ Time showing callbacks.
-: show-duration  ( -- )
+: show-configured  ( -- )
     \ Callback for showing user configured lighting duration
     \ in CONFITM state.
     duration @ to-printable WITH-DOTS display-number ;
 
-: show-time-left  ( -- )
-    \ Callback for showing seconds left in PAUSE state.
-    millis@ ms>seconds to-printable NO-DOTS display-number ;
+: show-time-paused  ( -- )
+    \ Callback for showing time left in PAUSE state.
+    seconds-left to-printable NO-DOTS display-number ;
 
 ram

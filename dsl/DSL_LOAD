@@ -4,6 +4,7 @@ nvm
 #require >
 #require <>
 #require [']
+#require 0>
 ram
 
 #require dsl/time.fs

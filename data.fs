@@ -12,8 +12,12 @@ create label.DONE   dp.d c,  dp.o c,  dp.n c,  dp.E c,
 
 variable duration  \ Lighting duration in seconds
 
-: millis-left  ( -- ms-left )
-    \ Get time left in milliseconds.
-    duration @ 1000 *  millis@  - ;
+: seconds-left  ( -- left )
+    \ Get time left in seconds.
+    duration @  seconds @  - ;
+
+: elapsed?  ( ms-left -- flag)
+    \ Indicate seconds are elapsed
+    0> not ;
 
 ram
