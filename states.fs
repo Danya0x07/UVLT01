@@ -73,4 +73,23 @@ nvm
         state.FINISH
     then ;
 
+: pause  ( -- nxstate )
+    \ This state allows user to start countdown procedure or return to SETUP.
+    ['] show-time-paused take-option
+    0= if
+        2 100 buzz
+        state.SETUP
+    else
+        state.COUNTDOWN
+    then ;
+
+: finish  ( -- nxstate )
+    \ This state informs user that lighting was finished.
+    3 300 buzz
+    led-on
+    label.DONE display-string
+    begin button-pressed? until
+    led-off
+    state.SETUP ;
+
 ram
