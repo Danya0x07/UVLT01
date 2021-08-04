@@ -9,7 +9,7 @@ nvm
 create label.DASHES dp.- c,  dp.- c,  dp.- c,  dp.- c,
 create label.BACK   dp.] c,  dp.NONE c,  dp.NONE c, dp.[ c,
 create label.DONE   dp.d c,  dp.o c,  dp.n c,  dp.E c,
-create label.BAD  dp.- c,  dp.b c,  dp.A c,  dp.d c,
+create label.BAD    dp.- c,  dp.b c,  dp.A c,  dp.d c,
 
 variable duration  \ Lighting duration in seconds
 
