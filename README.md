@@ -4,4 +4,4 @@ Project page on [Hackaday.io](https://hackaday.io/project/181093-uvlt01)
 
 The following schema represents the state machine used in the program.
 
-<img src="https://cdn.hackaday.io/images/5433291628193375587.jpg" width="600">
+<img src="https://cdn.hackaday.io/images/828181628233980140.jpg" width="600">
